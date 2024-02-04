@@ -113,9 +113,9 @@ int main() {
             sf::Vertex(sf::Vector2f(HEIGHT, 266))
     };
     std::vector<std::vector<Sprite*>> displayMoves(GRID_SIZE, std::vector<Sprite*>(GRID_SIZE)); //2d matrix to store players move
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            displayMoves[i][j] = new Sprite();
+    for (int i = 0; i < GRID_SIZE; ++i) {
+        for (int j = 0; j < GRID_SIZE; ++j) {
+            displayMoves[i][j] = new Sprite(); //Initialize vector with empy obj
         }
     }
 
@@ -278,8 +278,10 @@ int main() {
         window.draw(mapGrid, 8, sf::Lines);
 
         //Draw game status (X and O) on the screen
-        for(const auto& obj : displayMoves[0]){
-            window.draw(*obj);
+        for (int i = 0; i < GRID_SIZE; ++i) {
+            for(const auto& obj : displayMoves[i]){
+                window.draw(*obj);
+            }
         }
         window.display();
     }
