@@ -7,8 +7,9 @@ class Sprite : public sf::Drawable{
 private:
     float x;
     float y;
-
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 public:
+    Sprite();
     Sprite(float x, float y);
     virtual void move(float newX, float newY);
     float getX() const;
@@ -17,21 +18,22 @@ public:
 
 class circleSprite : public Sprite {
 private:
+    float r;
     sf::CircleShape circle;
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
-    circleSprite(float x, float y, float r);
+    circleSprite(float x, float y);
     void move(float newX, float newY) override;
 };
 
-class crossSprite : public Sprite {
+class crossSprite : public Sprite{
 private:
     sf::Vertex cross[4] = {
-            sf::Vertex(sf::Vector2f()),
-            sf::Vertex(sf::Vector2f()),
-            sf::Vertex(sf::Vector2f()),
-            sf::Vertex(sf::Vector2f()),
+            sf::Vertex(sf::Vector2f(0, 0)),
+            sf::Vertex(sf::Vector2f(80, 80)),
+            sf::Vertex(sf::Vector2f(80, 0)),
+            sf::Vertex(sf::Vector2f(0, 80)),
     };
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 public:
