@@ -13,5 +13,4 @@ set(SFML_DIR C:/SFML-2.6.1/lib/cmake/SFML)
 find_package(SFML COMPONENTS system window graphics audio network REQUIRED)
 
 
-include_directories(C:/Users/lucai/Documents/c/TicTacToe_SFML)
 target_link_libraries(TicTacToe_SFML sfml-system sfml-window sfml-graphics sfml-audio)

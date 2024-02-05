@@ -21,6 +21,9 @@ float Sprite::getY() const {
 }
 void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
+std::string Sprite::type() {
+    return "Sprite";
+}
 
 circleSprite::circleSprite(float x, float y) : Sprite(x, y) {
     this->r = 40;
@@ -37,6 +40,9 @@ void circleSprite::move(float newX, float newY) {
     Sprite::move(newX, newY);
     circle.setPosition(newX,newY);
 }
+std::string circleSprite::type() {
+    return "circleSprite";
+}
 
 crossSprite::crossSprite(float x, float y) : Sprite(x, y) {
     //Transform vertex of the cross to they relative position
@@ -47,4 +53,7 @@ crossSprite::crossSprite(float x, float y) : Sprite(x, y) {
 }
 void crossSprite::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(cross, 4, sf::Lines);
+}
+std::string crossSprite::type() {
+    return "crossSprite";
 }

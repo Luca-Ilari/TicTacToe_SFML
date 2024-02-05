@@ -14,6 +14,7 @@ public:
     virtual void move(float newX, float newY);
     float getX() const;
     float getY() const;
+    virtual std::string type();
 };
 
 class circleSprite : public Sprite {
@@ -25,6 +26,7 @@ private:
 public:
     circleSprite(float x, float y);
     void move(float newX, float newY) override;
+    std::string type() override;
 };
 
 class crossSprite : public Sprite{
@@ -38,5 +40,6 @@ private:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 public:
     crossSprite(float x, float y);
+    std::string type() override;
 };
 #endif //TESTSFML_SPRITES_H
