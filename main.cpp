@@ -40,6 +40,7 @@ float cordToCell(int x){
 }
 
 int main() {
+    bool canContinue = true;
     int tmpX, tmpY;
     float newSpriteX, newSpriteY;
     int playerTurn = 0;
@@ -77,20 +78,37 @@ int main() {
         window.clear();
         if (event.type == sf::Event::MouseButtonPressed){
             if (event.mouseButton.button == sf::Mouse::Left) {
+                if(canContinue == true) {
+                    tmpX = cordToMatrix(event.mouseButton.x);
+                    tmpY = cordToMatrix(event.mouseButton.y);
+                    newSpriteX = cordToCell(event.mouseButton.x);
+                    newSpriteY = cordToCell(event.mouseButton.y);
+                    auto cellClicked = movesMatrix[tmpX][tmpY];
 
-                tmpX = cordToMatrix(event.mouseButton.x);
-                tmpY = cordToMatrix(event.mouseButton.y);
-                newSpriteX = cordToCell(event.mouseButton.x);
-                newSpriteY = cordToCell(event.mouseButton.y);
-                auto cellClicked = movesMatrix[tmpX][tmpY];
+                    if (cellClicked->type() == "Sprite") { //Check if the cell clicked is empty
+                        if (playerTurn == 0) {
+                            movesMatrix[tmpX][tmpY] = new crossSprite(newSpriteX, newSpriteY);
+                            ++playerTurn;
+                        } else {
+                            movesMatrix[tmpX][tmpY] = new circleSprite(newSpriteX, newSpriteY);
+                            --playerTurn;
+                        }
+                    }
+                    //check for game end
+                    for (int i = 0; i < GRID_SIZE; ++i) {
+                        auto cell1 = movesMatrix[0][i];
+                        auto cell2 = movesMatrix[1][i];
+                        auto cell3 = movesMatrix[2][i];
+                        
+                        if (cell1->type() == "crossSprite" and cell2->type() == "crossSprite" and cell3->type() == "crossSprite") {
+                            std::cout << ++i <<"\n";
+                            canContinue = true;
+                        }
+                        if (cell1->type() == "circleSprite" and cell2->type() == "circleSprite" and cell3->type() == "circleSprite") {
+                            std::cout << ++i <<"\n";
+                            canContinue = true;
+                        }
 
-                if(cellClicked->type() == "Sprite"){ //Check if the cell clicked is empty
-                    if(playerTurn == 0){
-                        movesMatrix[tmpX][tmpY] = new crossSprite(newSpriteX, newSpriteY);
-                        ++playerTurn;
-                    }else{
-                        movesMatrix[tmpX][tmpY] = new circleSprite(newSpriteX, newSpriteY);
-                        --playerTurn;
                     }
                 }
             }
