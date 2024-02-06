@@ -4,8 +4,15 @@ project(TicTacToe_SFML)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(TicTacToe_SFML main.cpp
-        sprites.h
-        sprites.cpp
+        classes/Sprites.h
+        classes/Sprites.cpp
+        functions.cpp
+        functions.h
+        definitions.h
+        classes/CircleSprite.cpp
+        classes/CircleSprite.h
+        classes/CrossSprite.cpp
+        classes/CrossSprite.h
 )
 
 set(SFML_STATIC_LIBRARIES TRUE)
