@@ -1,6 +1,7 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include <vector>
+#include <windows.h>
+#include <SFML/Graphics.hpp>
 #include "classes/Sprites.h"
 #include "classes/CircleSprite.h"
 #include "classes/CrossSprite.h"
@@ -46,11 +47,10 @@ int main() {
 
         window.clear();
         if (showEndScreen) {
-                if (rightMousePressed(event)) {
-                    std::cout<<"Starting new game\n";
-                    showEndScreen = false;
-
-                }
+            if (rightMousePressed(event)) {
+                std::cout<<"Starting new game\n";
+                showEndScreen = false;
+            }
         }
         else {
             if (!gameFinished) {
@@ -77,6 +77,7 @@ int main() {
                 }
             } else {
                 //Restart Game
+                Sleep(2000);
                 for (int i = 0; i < GRID_SIZE; ++i) {
                     for (int j = 0; j < GRID_SIZE; ++j) {
                         delete movesMatrix[i][j];
