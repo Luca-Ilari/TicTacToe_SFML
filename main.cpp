@@ -91,7 +91,6 @@ int main() {
             //showEndScreen = true;
             if (rightMousePressed(event)) {
                 std::cout<<"Starting new game\n";
-                showEndScreen = false;
             }
         }
 
