@@ -13,7 +13,7 @@ int main() {
     int tmpX, tmpY;
     float newSpriteX, newSpriteY;
     int playerTurn = 0;
-    bool showEndScreen = false;
+
     sf::Vertex mapGrid[8] = {
             sf::Vertex(sf::Vector2f(133, 0)),
             sf::Vertex(sf::Vector2f(133, HEIGHT)),
@@ -46,48 +46,27 @@ int main() {
         }
 
         window.clear();
-        if (showEndScreen) {
-            if (rightMousePressed(event)) {
-                std::cout<<"Starting new game\n";
-                showEndScreen = false;
-            }
-        }
-        else {
-            if (!gameFinished) {
-                if (leftMousePressed(event)) {
-                    tmpX = cordToMatrix(event.mouseButton.x);
-                    tmpY = cordToMatrix(event.mouseButton.y);
-                    newSpriteX = cordToCell(event.mouseButton.x);
-                    newSpriteY = cordToCell(event.mouseButton.y);
-                    auto cellClicked = movesMatrix[tmpX][tmpY];
+        if (!gameFinished) {
+            if (leftMousePressed(event)) {
+                tmpX = cordToMatrix(event.mouseButton.x);
+                tmpY = cordToMatrix(event.mouseButton.y);
+                newSpriteX = cordToCell(event.mouseButton.x);
+                newSpriteY = cordToCell(event.mouseButton.y);
+                auto cellClicked = movesMatrix[tmpX][tmpY];
 
-                    if (cellClicked->type() == EMPTY_CELL) { //Check if the cell clicked is empty
-                        if (playerTurn == 0) {
-                            CrossSprite *tmp = new CrossSprite(newSpriteX, newSpriteY);
-                            movesMatrix[tmpX][tmpY] = tmp;
-                            ++playerTurn;
-                        } else {
-                            CircleSprite *tmp = new CircleSprite(newSpriteX, newSpriteY);
-                            movesMatrix[tmpX][tmpY] = tmp;
-                            --playerTurn;
-                        }
-                    }
-                    //check for game end
-                    gameFinished = checkGameEnded(movesMatrix);
-                }
-            } else {
-                //Restart Game
-                Sleep(2000);
-                for (int i = 0; i < GRID_SIZE; ++i) {
-                    for (int j = 0; j < GRID_SIZE; ++j) {
-                        delete movesMatrix[i][j];
-                        movesMatrix[i][j] = new CustomSprite;
+                if (cellClicked->type() == EMPTY_CELL) { //Check if the cell clicked is empty
+                    if (playerTurn == 0) {
+                        CrossSprite *tmp = new CrossSprite(newSpriteX, newSpriteY);
+                        movesMatrix[tmpX][tmpY] = tmp;
+                        ++playerTurn;
+                    } else {
+                        CircleSprite *tmp = new CircleSprite(newSpriteX, newSpriteY);
+                        movesMatrix[tmpX][tmpY] = tmp;
+                        --playerTurn;
                     }
                 }
-                gameFinished = false;
-                playerTurn = 0;
-                showEndScreen = true;
             }
+            gameFinished = checkGameEnded(movesMatrix);
             // draw grid
             window.draw(mapGrid, 8, sf::Lines);
 
@@ -97,7 +76,25 @@ int main() {
                     window.draw(*obj);
                 }
             }
+        } else {
+            //Restart Game
+            //window.draw(line);
+            Sleep(2000);
+            for (int i = 0; i < GRID_SIZE; ++i) {
+                for (int j = 0; j < GRID_SIZE; ++j) {
+                    delete movesMatrix[i][j];
+                    movesMatrix[i][j] = new CustomSprite;
+                }
+            }
+            gameFinished = false;
+            playerTurn = 0;
+            //showEndScreen = true;
+            if (rightMousePressed(event)) {
+                std::cout<<"Starting new game\n";
+                showEndScreen = false;
+            }
         }
+
         window.display();
     }
     return 0;
