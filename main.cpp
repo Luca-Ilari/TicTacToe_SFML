@@ -14,6 +14,8 @@ int main() {
     float newSpriteX, newSpriteY;
     int playerTurn = 0;
 
+    sf::Vertex winnerLine[2];
+
     sf::Vertex mapGrid[8] = {
             sf::Vertex(sf::Vector2f(133, 0)),
             sf::Vertex(sf::Vector2f(133, HEIGHT)),
@@ -25,7 +27,8 @@ int main() {
             sf::Vertex(sf::Vector2f(HEIGHT, 266))
     };
 
-    std::vector<std::vector<CustomSprite*>> movesMatrix(GRID_SIZE, std::vector<CustomSprite*>(GRID_SIZE)); //2d matrix to store players move
+    //2d matrix used to store players move
+    std::vector<std::vector<CustomSprite*>> movesMatrix(GRID_SIZE, std::vector<CustomSprite*>(GRID_SIZE));
     for (int i = 0; i < GRID_SIZE; ++i) {
         for (int j = 0; j < GRID_SIZE; ++j) {
             movesMatrix[i][j] = new CustomSprite(); //Initialize vector with empty obj
@@ -45,13 +48,13 @@ int main() {
                 window.close();
         }
 
-        window.clear();
         if (!gameFinished) {
             if (leftMousePressed(event)) {
                 tmpX = cordToMatrix(event.mouseButton.x);
                 tmpY = cordToMatrix(event.mouseButton.y);
                 newSpriteX = cordToCell(event.mouseButton.x);
                 newSpriteY = cordToCell(event.mouseButton.y);
+
                 auto cellClicked = movesMatrix[tmpX][tmpY];
 
                 if (cellClicked->type() == EMPTY_CELL) { //Check if the cell clicked is empty
@@ -66,7 +69,8 @@ int main() {
                     }
                 }
             }
-            gameFinished = checkGameEnded(movesMatrix);
+
+            gameFinished = checkGameEnded(movesMatrix, winnerLine);
             // draw grid
             window.draw(mapGrid, 8, sf::Lines);
 
@@ -76,24 +80,24 @@ int main() {
                     window.draw(*obj);
                 }
             }
-        } else {
-            //Restart Game
-            //window.draw(line);
+        }else{
+            window.draw(winnerLine,2, sf::Lines);
+            RESET_WINNERLINE //set coordinate of winnerLine to outside the screen
+            window.display();
+
             Sleep(2000);
+            window.clear(); //reset screen to start new game
             for (int i = 0; i < GRID_SIZE; ++i) {
                 for (int j = 0; j < GRID_SIZE; ++j) {
                     delete movesMatrix[i][j];
                     movesMatrix[i][j] = new CustomSprite;
                 }
             }
-            gameFinished = false;
-            playerTurn = 0;
-            //showEndScreen = true;
-            if (rightMousePressed(event)) {
-                std::cout<<"Starting new game\n";
-            }
-        }
 
+            playerTurn = 0;
+            gameFinished = false;
+            std::cout<<"Starting new game\n";
+         }
         window.display();
     }
     return 0;

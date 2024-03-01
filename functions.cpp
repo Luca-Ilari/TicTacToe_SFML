@@ -4,7 +4,10 @@
 #include "definitions.h"
 #include "functions.h"
 
-bool checkGameEnded(std::vector<std::vector<CustomSprite*>> arr){
+#define WINNING_CONDITION cell1->type() != EMPTY_CELL and (cell1->type() == cell2->type() and cell2->type() == cell3->type())
+#define SET_WINNERLINE winnerLine[0] = sf::Vertex(sf::Vector2f(cell1->getX(),cell1->getY()), sf::Color::Red);winnerLine[1] = sf::Vertex(sf::Vector2f(cell3->getX(), cell3->getY()), sf::Color::Red);
+
+bool checkGameEnded(std::vector<std::vector<CustomSprite*>> arr, sf::Vertex *winnerLine){
     CustomSprite *cell1;
     CustomSprite *cell2;
     CustomSprite *cell3;
@@ -14,7 +17,7 @@ bool checkGameEnded(std::vector<std::vector<CustomSprite*>> arr){
         cell2 = arr[1][i];
         cell3 = arr[2][i];
         if (WINNING_CONDITION) {
-            std::cout << cell1->type() <<" vince nella riga "<< ++i<<"\n";
+            SET_WINNERLINE;
             return true;
         }
         //check column
@@ -22,7 +25,7 @@ bool checkGameEnded(std::vector<std::vector<CustomSprite*>> arr){
         cell2 = arr[i][1];
         cell3 = arr[i][2];
         if (WINNING_CONDITION) {
-            std::cout << cell1->type() <<" vince nella colonna "<< ++i<<"\n";
+            SET_WINNERLINE
             return true;
         }
     }
@@ -31,17 +34,16 @@ bool checkGameEnded(std::vector<std::vector<CustomSprite*>> arr){
     cell2 = arr[1][1];
     cell3 = arr[2][2];
     if (WINNING_CONDITION) {
-        std::cout << cell1->type() <<" vince diagonale"<< "\n";
+        SET_WINNERLINE
         return true;
     }
     cell1 = arr[2][0];
     cell2 = arr[1][1];
     cell3 = arr[0][2];
     if (WINNING_CONDITION) {
-        std::cout << cell1->type() <<" vince diagonale"<<"\n";
+        SET_WINNERLINE
         return true;
     }
-
     //check tie
     for (int i = 0; i < GRID_SIZE; ++i) {
         for (int j = 0; j < GRID_SIZE; ++j) {
@@ -51,7 +53,7 @@ bool checkGameEnded(std::vector<std::vector<CustomSprite*>> arr){
             }
         }
     }
-    std::cout << "Parità\n";
+    std::cout << "Parita\n";
     return true;
 }
 

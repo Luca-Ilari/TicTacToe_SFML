@@ -12,4 +12,4 @@
 #define CROSS "CrossSprite"
 #define CIRCLE "CircleSprite"
 
-#define WINNING_CONDITION cell1->type() != EMPTY_CELL and (cell1->type() == cell2->type() and cell2->type() == cell3->type())
+#define RESET_WINNERLINE winnerLine[0] = sf::Vertex(sf::Vector2f (-1,-1)); winnerLine[1] = sf::Vertex(sf::Vector2f (-1,-1));
